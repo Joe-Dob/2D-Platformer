@@ -13,6 +13,7 @@ public class script : MonoBehaviour {
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        // Test
     }
 
     // Update is called once per frame
