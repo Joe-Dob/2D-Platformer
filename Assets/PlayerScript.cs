@@ -23,6 +23,7 @@ public class script : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        //get horizontal input
         float h = Input.GetAxis("Horizontal");
         // check if player is on the ground
 
