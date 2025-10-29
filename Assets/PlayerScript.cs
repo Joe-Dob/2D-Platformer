@@ -30,6 +30,13 @@ public class script : MonoBehaviour {
             else
         rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocityY);
         }
+        else
+        {
+            // this allows the player a small amount of movement in the air
+            float xv = rigidBody.linearVelocityX;
+            if (h * xv > airControlMax)
+                rigidBody.AddForce(new Vector2(h * airControlForce, 0));
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D Collision)
