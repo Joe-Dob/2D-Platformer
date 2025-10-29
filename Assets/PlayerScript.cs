@@ -13,7 +13,6 @@ public class script : MonoBehaviour {
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        // Test
     }
 
     // Update is called once per frame
@@ -23,10 +22,7 @@ public class script : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        //get horizontal input
         float h = Input.GetAxis("Horizontal");
-        // check if player is on the ground
-
         if (grounded)
         {
             if (Input.GetAxis("Jump") > 0.0f)
@@ -36,19 +32,19 @@ public class script : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D Collision)
     {
-        if (collision.gameObject.layer == 3)
+        if(Collision.gameObject.layer == 3)
         {
             grounded = true;
         }
     }
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D Collision)
     {
-        if (collision.gameObject.layer == 3)
+        if(Collision.gameObject.layer == 3)
         {
             grounded = false;
         }
-    }
 
+    }
 }
