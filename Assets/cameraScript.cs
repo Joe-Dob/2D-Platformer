@@ -5,14 +5,13 @@ public class cameraScript : MonoBehaviour
     public Transform attachedPlayer;
     Camera thisCamera;
     public float blendAmount = 0.05f;
-    public float boxSizeX = 2;
-    public float boxSizeY = 2;
+    public float boxSizeX;
+    public float boxSizeY;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() 
     {
         thisCamera = GetComponent<Camera>();
-        
     }
 
     // Update is called once per frame
@@ -28,9 +27,9 @@ public class cameraScript : MonoBehaviour
         float screenX0, screenX1, screenY0, screenY1;
         float box_x0, box_x1, box_y0, box_y1;
         box_x0 = playerPos.x - boxSizeX;
-        box_x1 = playerPos.x - boxSizeX;
+        box_x1 = playerPos.x + boxSizeX;
         box_y0 = playerPos.y - boxSizeY;
-        box_y1 = playerPos.y - boxSizeY;
+        box_y1 = playerPos.y + boxSizeY;
 
         Vector3 bottomLeft = thisCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 topRight = thisCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
