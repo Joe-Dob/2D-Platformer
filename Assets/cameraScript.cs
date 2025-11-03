@@ -18,6 +18,6 @@ public class cameraScript : MonoBehaviour
     {
         Vector3 player = attachedPlayer.transform.position;
         Vector3 newCamPos = player * blendAmount + transform.position * (1.0f - blendAmount);
-        transform.position = new Vector3( newCamPos.x, newCamPos.y, transform.position.z);
+        transform.position = new Vector3(newCamPos.x, newCamPos.y, transform.position.z);
     }
 }
