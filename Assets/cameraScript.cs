@@ -4,6 +4,8 @@ public class cameraScript : MonoBehaviour
 {
     public Transform attachedPlayer;
     Camera thisCamera;
+    public float blendAmount = 0.05f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() 
     {
@@ -15,7 +17,7 @@ public class cameraScript : MonoBehaviour
     void Update()
     {
         Vector3 player = attachedPlayer.transform.position;
-        Vector3 newCamPos = new Vector3(player.x, player.y, transform.position.z);
-        transform.position = newCamPos;
+        Vector3 newCamPos = player * blendAmount + transform.position * (1.0f - blendAmount);
+        transform.position = new Vector3( newCamPos.x, newCamPos.y, transform.position.z);
     }
 }
