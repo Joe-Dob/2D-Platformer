@@ -3,21 +3,29 @@ using UnityEngine;
 public class script : MonoBehaviour {
 
     Rigidbody2D rigidBody;
+    Animator animator;
     public float speed = 5.0f;
     public float jumpForce = 8.0f;
-    public float airControlForce = 10.0f;
-    public float airControlMax = 1.5f;
+    public float airControlForce;
+    public float airControlMax;
     public bool grounded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
-    {   
+    {
+        float xspeed = Mathf.Abs(rigidBody.linearVelocity.x);
+        animator.SetFloat("xspeed", xspeed);
+        if (rigidBody.linearVelocity.x * transform.localScale.x < 0.0f)
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private void FixedUpdate()
@@ -26,15 +34,19 @@ public class script : MonoBehaviour {
         if (grounded)
         {
             if (Input.GetAxis("Jump") > 0.0f)
+            {
                 rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
+            }
             else
-        rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocityY);
+            {
+                rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
+            }
         }
         else
         {
             // this allows the player a small amount of movement in the air
-            float xv = rigidBody.linearVelocityX;
-            if (h * xv > airControlMax)
+            float vx = rigidBody.linearVelocityX;
+            if (h * vx < airControlMax)
                 rigidBody.AddForce(new Vector2(h * airControlForce, 0));
         }
     }

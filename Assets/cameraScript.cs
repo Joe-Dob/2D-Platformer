@@ -19,13 +19,15 @@ public class cameraScript : MonoBehaviour
     {
         Vector3 playerPos = attachedPlayer.transform.position;
         Vector3 cameraPos = transform.position;
-        
+
         float camX, camY;
+
         camX = cameraPos.x;
         camY = cameraPos.y;
 
         float screenX0, screenX1, screenY0, screenY1;
         float box_x0, box_x1, box_y0, box_y1;
+
         box_x0 = playerPos.x - boxSizeX;
         box_x1 = playerPos.x + boxSizeX;
         box_y0 = playerPos.y - boxSizeY;
@@ -37,10 +39,10 @@ public class cameraScript : MonoBehaviour
         screenX0 = bottomLeft.x;
         screenX1 = topRight.x;
 
-        if (box_y0 < screenX0)
+        if (box_x0 < screenX0)
             camX = playerPos.x + 0.5f * (screenX1 - screenX0) - boxSizeX;
-        else if (box_y1 > screenX1)
-            camY = playerPos.y - 0.5f * (screenX1 - screenX0) + boxSizeX;
+        else if (box_x1 > screenX1)
+            camX = playerPos.x - 0.5f * (screenX1 - screenX0) + boxSizeX;
 
         screenY0 = bottomLeft.y;
         screenY1 = topRight.y;
@@ -48,8 +50,9 @@ public class cameraScript : MonoBehaviour
         if (box_y0 < screenY0)
             camY = playerPos.y + 0.5f * (screenY1 - screenY0) - boxSizeY;
         else if (box_y1 > screenY1)
-            camY = playerPos.y - (screenY1 - screenY1) + boxSizeY;
+            camY = playerPos.y - 0.5f * (screenY1 - screenY0) + boxSizeY;
 
         transform.position = new Vector3(camX, camY, cameraPos.z);
+
     }
 }
