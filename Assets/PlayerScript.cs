@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class script : MonoBehaviour {
+public class PlayerScript : MonoBehaviour {
 
     Rigidbody2D rigidBody;
     Animator animator;
@@ -9,12 +9,16 @@ public class script : MonoBehaviour {
     public float airControlForce;
     public float airControlMax;
     public bool grounded;
+    public bool canDoubleJump;
+    private bool isDoubleJumping;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        canDoubleJump = false;
+        isDoubleJumping = false;
     }
 
     // Update is called once per frame
@@ -28,18 +32,39 @@ public class script : MonoBehaviour {
         }
     }
 
+    void Jump()
+    {
+        if(!isDoubleJumping)
+        {
+            rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigidBody.AddForce(new Vector2(0.0f, jumpForce*5f), ForceMode2D.Impulse);
+        }
+            
+    }
+
     private void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
         if (grounded)
         {
-            if (Input.GetAxis("Jump") > 0.0f)
+            canDoubleJump = true;
+            isDoubleJumping= false;
+            if (Input.GetAxis("Jump") > 0.0f) //0++++++++
             {
-                rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
+                //I can double jump because I have just jumped...
+                Jump();
+                //canDoubleJump = true;
+
             }
             else
             {
+                //I am walking...
+                //No, I haven't jumped once yet...
                 rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
+                //canDoubleJump = false;
             }
         }
         else
@@ -48,6 +73,20 @@ public class script : MonoBehaviour {
             float vx = rigidBody.linearVelocityX;
             if (h * vx < airControlMax)
                 rigidBody.AddForce(new Vector2(h * airControlForce, 0));
+
+            //So, I can double jump here, but should I throttle this in any way?
+            //What if I can jump to infinity?  
+            //Have I used double jump? If so, no more double jump for you...
+            //if I have the ability to double jump and the player presses jump, jump!
+            if(canDoubleJump && Input.GetKeyDown(KeyCode.Space))
+            {
+
+                Debug.Log("double jump");                
+                //Add the new jump
+                Jump();
+                canDoubleJump = false;
+                isDoubleJumping = true;
+            }
         }
     }
 
