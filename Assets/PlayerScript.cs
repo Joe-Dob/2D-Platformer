@@ -20,8 +20,9 @@ public class script : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        float xspeed = Mathf.Abs(rigidBody.linearVelocity.x);
-        animator.SetFloat("xspeed", xspeed);
+        float xSpeed = Mathf.Abs(rigidBody.linearVelocity.x);
+        animator.SetFloat("xspeed", xSpeed);
+
         if (rigidBody.linearVelocity.x * transform.localScale.x < 0.0f)
         {
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
