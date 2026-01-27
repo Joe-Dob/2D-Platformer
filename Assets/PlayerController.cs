@@ -33,6 +33,13 @@ public class NewMonoBehaviourScript : MonoBehaviour{
             else
         rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
         }
+        else
+        {
+            float vx = rigidBody.linearVelocityX;
+            if (h * vx < airControlMax)
+                rigidBody.AddForce(new Vector2(h * airControlForce, 0));
+        }
+
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
