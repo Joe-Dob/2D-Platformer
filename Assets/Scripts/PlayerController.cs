@@ -25,6 +25,11 @@ public class NewMonoBehaviourScript : MonoBehaviour{
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         float xSpeed = Mathf.Abs(rigidBody.linearVelocity.x);
         animator.SetFloat("xspeed", xSpeed);
+        float ySpeed = rigidBody.linearVelocity.y;
+        animator.SetFloat("yspeed", ySpeed);
+        float blinkVal = Random.Range(0.0f, 1000.0f);
+        if (blinkVal < 1.0f)
+            animator.SetTrigger("blinktrigger");
     }
 
     private void FixedUpdate()
@@ -59,6 +64,14 @@ public class NewMonoBehaviourScript : MonoBehaviour{
         if (collision.gameObject.layer == 3)
         {
             grounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ( collision.gameObject.tag == "Coin")
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
