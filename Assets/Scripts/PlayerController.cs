@@ -10,12 +10,14 @@ public class NewMonoBehaviourScript : MonoBehaviour{
     public float airControlForce = 10.0f;
     public float airControlMax = 1.5f;
     public bool grounded;
+    public AudioSource coinSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -72,6 +74,7 @@ public class NewMonoBehaviourScript : MonoBehaviour{
         if ( collision.gameObject.tag == "Coin")
         {
             Destroy(collision.gameObject);
+            coinSound.Play();
         }
     }
 }
