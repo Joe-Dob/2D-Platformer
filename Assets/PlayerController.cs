@@ -1,12 +1,14 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class NewMonoBehaviourScript : MonoBehaviour{
 
     Rigidbody2D rigidBody;
-    public float speed;
+    public float speed = 5.0f;
     public float jumpForce = 8.0f;
     public float airControlForce = 10.0f;
     public float airControlMax = 1.5f;
+    public bool grounded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +25,28 @@ public class NewMonoBehaviourScript : MonoBehaviour{
     private void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
-        if ( h != 0.0f )
-            rigidBody.linearVelocity = new Vector2(h * speed, 0.0f);
+        // check if we're on the ground
+        if (grounded)
+        {
+            if (Input.GetAxis("Jump") > 0.0f)
+                rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
+            else
+        rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
+        }
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            grounded = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            grounded = false;
+        }
     }
 }
