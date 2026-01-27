@@ -1,7 +1,10 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+
 public class NewMonoBehaviourScript : MonoBehaviour{
+
+public class PlayerScript : MonoBehaviour {
 
     Rigidbody2D rigidBody;
     Animator animator;
@@ -11,16 +14,13 @@ public class NewMonoBehaviourScript : MonoBehaviour{
     public float airControlMax = 1.5f;
     public bool grounded;
     public AudioSource coinSound;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+ 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(rigidBody.linearVelocity.x*transform.localScale.x < 0.0f)
@@ -35,25 +35,18 @@ public class NewMonoBehaviourScript : MonoBehaviour{
     }
 
     private void FixedUpdate()
-    {
-        float h = Input.GetAxis("Horizontal");
-        // check if we're on the ground
-        if (grounded)
         {
+            float h = Input.GetAxis("Horizontal");
+            // check if we're on the ground
+            if (!grounded)
+            {
+                return;
+            }
+
             if (Input.GetAxis("Jump") > 0.0f)
                 rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
             else
-        rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
-        }
-        else
-        {
-            float vx = rigidBody.linearVelocityX;
-            if (h * vx < airControlMax)
-                rigidBody.AddForce(new Vector2(h * airControlForce, 0));
-        }
-
-
-    }
+                rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 3)
