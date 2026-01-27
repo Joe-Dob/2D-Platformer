@@ -19,7 +19,8 @@ public class NewMonoBehaviourScript : MonoBehaviour{
     // Update is called once per frame
     void Update()
     {
-        
+        if(rigidBody.linearVelocity.x*transform.localScale.x < 0.0f)
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
     private void FixedUpdate()
