@@ -40,17 +40,22 @@ public class PlayerScript : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
 
-        // check if we're on the ground
-        if (!grounded)
+        if (grounded)
         {
-            return;
+            if (Input.GetAxis("Jump") > 0.0f)
+                rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
+            else
+                rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocityY);
+        }
+        else
+        {
+            // allow a small amount of movement in the air 
+            float vx = rigidBody.linearVelocityX;
+            if (h * vx < airControlMax)
+                rigidBody.AddForce(new Vector2(h * airControlForce, 0));
         }
 
-        if (Input.GetAxis("Jump") > 0.0f)
-            rigidBody.AddForce(new Vector2(0.0f, jumpForce), ForceMode2D.Impulse);
-        else
-            rigidBody.linearVelocity = new Vector2(speed * h, rigidBody.linearVelocity.y);
-    }   // ✅ THIS was the missing brace
+    }   
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
